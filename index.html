@@ -15,6 +15,28 @@
       opacity: 0;
       transition: opacity .5s;
     }
+
+    a {
+      font: 13px monospace;
+      color: cyan;
+      text-shadow: 1px 1px #FF00FF;
+      cursor: help;
+    }
+    a:hover {
+      color: #FF00FF;
+    }
+
+    #author {
+      margin: 0;
+      padding: 0;
+
+      position: absolute;
+      bottom: 50px;
+      left: 63px;
+
+      line-height: 50px;
+      text-decoration: none;
+    }
   </style>
 </head>
 <body>
@@ -92,5 +114,8 @@
     }
     main()
   </script>
+  <a id="author" href="https://github.com/dasilvacontin/80s-light">
+    @dasilvacontin
+  </a>
 </body>
 </html>
