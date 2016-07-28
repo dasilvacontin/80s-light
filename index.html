@@ -61,6 +61,8 @@
     document.body.appendChild(canvas)
     const ctx = canvas.getContext('2d')
 
+    const MARGIN = 50
+
     function purplify (img) {
       const canvas = document.createElement('canvas')
       const ctx = canvas.getContext('2d')
@@ -97,8 +99,7 @@
       return canvas
     }
 
-    function render () {
-      const img = this
+    function render (img) {
       const { innerWidth, innerHeight } = window
       canvas.width = innerWidth
       canvas.height = innerHeight
@@ -110,25 +111,42 @@
       ctx.fillRect(0, 0, innerWidth, innerHeight)
 
       // draw purplified image
+      const renderWidth = innerWidth - MARGIN * 2
+      const renderHeight = innerHeight - MARGIN * 2
       ctx.drawImage(
-        purplify(img),
-        Math.floor((innerWidth - img.width) / 2),
-        Math.floor((innerHeight - img.height) / 2),
-        img.width,
-        img.height
+        img,
+
+        // source
+        0,
+        0,
+        Math.min(img.width, renderWidth),
+        Math.min(img.height, renderHeight),
+
+        // dest
+        MARGIN,
+        MARGIN,
+        renderWidth,
+        renderHeight
       )
       ctx.restore()
     }
 
+    let lastImg
     function main () {
       const { innerWidth, innerHeight } = window
       const img = new Image()
       img.crossOrigin = ''
-      img.src = `https://unsplash.it/${innerWidth - 100}/${innerHeight - 100}/?random&t=${Date.now()}`
-      img.onload = render
+      img.src = `https://unsplash.it/${innerWidth - MARGIN * 2}/` +
+        `${innerHeight - MARGIN * 2}/?random&t=${Date.now()}`
+      img.onload = () => {
+        lastImg = purplify(img)
+        render(lastImg)
+      }
       setTimeout(main, 15 * 1000)
     }
     main()
+
+    window.onresize = () => { render(lastImg) }
   </script>
   <a id="author" href="https://github.com/dasilvacontin/80s-light">
     @dasilvacontin
