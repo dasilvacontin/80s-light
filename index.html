@@ -106,6 +106,9 @@
     }
 
     let currImg = new Image()
+    currImg.crossOrigin = ''
+    currImg.src = `photo${Math.floor(Math.random() * 2)}.jpg`
+
     function render () {
       const { innerWidth, innerHeight } = window
       canvas.width = innerWidth
@@ -136,17 +139,20 @@
       )
     }
 
+    function imageOnLoad () {
+      this.onload = undefined
+      currImg = purplify(this)
+      render()
+    }
+    currImg.onload = imageOnLoad
+
     function main () {
       const { innerWidth, innerHeight } = window
       const img = new Image()
       img.crossOrigin = ''
       img.src = `https://unsplash.it/${innerWidth - MARGIN * 2}/` +
         `${innerHeight - MARGIN * 2}/?random&t=${Date.now()}`
-      img.onload = () => {
-        img.onload = undefined
-        currImg = purplify(img)
-        render()
-      }
+      img.onload = imageOnLoad
       setTimeout(main, 30 * 1000)
     }
     main()
