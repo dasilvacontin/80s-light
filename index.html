@@ -122,14 +122,21 @@
       // draw purplified image
       const renderWidth = innerWidth - MARGIN * 2
       const renderHeight = innerHeight - MARGIN * 2
+      const ratio = Math.max(
+        renderWidth / currImg.width,
+        renderHeight / currImg.height
+      )
+
+      const sourceWidth = renderWidth / ratio
+      const sourceHeight = renderHeight / ratio
       ctx.drawImage(
         currImg,
 
         // source
-        0,
-        0,
-        Math.min(currImg.width, renderWidth),
-        Math.min(currImg.height, renderHeight),
+        Math.floor((currImg.width - sourceWidth) / 2),
+        Math.floor((currImg.height - sourceHeight) / 2),
+        sourceWidth,
+        sourceHeight,
 
         // dest
         MARGIN,
